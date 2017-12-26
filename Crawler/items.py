@@ -5,10 +5,13 @@
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/items.html
 
-import scrapy
+import scrapy as sc
 
 
-class CrawlerItem(scrapy.Item):
+class CrawlerItem(sc.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    urlname = sc.Field()
+    urlkey = sc.Field()
+    urlcr = sc.Field()
+    urladdr = sc.Field()
