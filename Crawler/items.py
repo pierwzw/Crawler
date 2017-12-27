@@ -10,8 +10,22 @@ import scrapy as sc
 
 class CrawlerItem(sc.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    urlname = sc.Field()
+    #name = scrapy.Field()
+    name = sc.Field()
     urlkey = sc.Field()
     urlcr = sc.Field()
     urladdr = sc.Field()
+
+
+class myXmlItem(sc.Item):
+    # define the fields for your item here like:
+    title = sc.Field()
+    link = sc.Field()
+    author = sc.Field()
+
+class mycsvItem(sc.Item):
+    name = sc.Field()
+    sex = sc.Field()
+    addr = sc.Field()
+    email = sc.Field()
+

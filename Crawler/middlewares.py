@@ -54,3 +54,42 @@ class CrawlerSpiderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+import random
+from Crawler.settings import IPPOOL
+from scrapy.contrib.downloadermiddleware.httpproxy import HttpProxyMiddleware
+
+
+class IPPOOLS(HttpProxyMiddleware):
+    """
+    ip代理池
+    """
+
+    def __init__(self, ip=''):
+        self.ip = ip
+
+
+    def process_request(self, request, spider):
+        #先随机选择一个IP
+        thisip = random.choice(IPPOOL)
+        print('当前使用的IP是：'+thisip['ipaddr'])
+        request.meta['proxy'] = 'http://'+thisip['ipaddr']
+
+
+from Crawler.settings import UAPOOL
+from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
+
+
+class Uamid(UserAgentMiddleware):
+    """
+    用户代理池
+    """
+
+    def __init__(self, ua=''):
+        self.ua = ua
+
+    def process_request(self, request, spider):
+        thisua = random.choice(UAPOOL)
+        print('当前使用的user-agent是：'+thisua)
+        request.headers.setdefault('User-Agent', thisua)

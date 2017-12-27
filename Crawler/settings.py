@@ -14,12 +14,25 @@ BOT_NAME = 'Crawler'
 SPIDER_MODULES = ['Crawler.spiders']
 NEWSPIDER_MODULE = 'Crawler.spiders'
 
+COMMANDS_MODULE = 'Crawler.cmd'
 
+#ip池设置
+IPPOOL = [{'ipaddr':'219.149.46.151:3129'},
+          {'ipaddr':'110.166.254.120:808'},
+          {'ipaddr':'122.114.31.177:808'},
+          {'ipaddr':'61.135.217.7:80'}]
+
+#用户代理池
+UAPOOL=[
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.22 Safari/537.36 SE 2.X MetaSr 1.0",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0",
+    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.5"
+]
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'Crawler (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -27,13 +40,13 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 0.5
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -52,9 +65,13 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'Crawler.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   #'Crawler.middlewares.MyCustomDownloaderMiddleware': 543,
+   # 'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':123,
+   #  'Crawler.middlewares.IPPOOLS':125
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware':2,
+    'Crawler.middlewares.Uamid':1
+}
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
