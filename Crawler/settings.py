@@ -16,11 +16,13 @@ NEWSPIDER_MODULE = 'Crawler.spiders'
 
 COMMANDS_MODULE = 'Crawler.cmd'
 
+USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.22 Safari/537.36 SE 2.X MetaSr 1.0'
+
 #ip池设置
-IPPOOL = [{'ipaddr':'219.149.46.151:3129'},
-          {'ipaddr':'110.166.254.120:808'},
-          {'ipaddr':'122.114.31.177:808'},
-          {'ipaddr':'61.135.217.7:80'}]
+IPPOOL = [{'ipaddr':'58.56.149.198:53281'},
+          {'ipaddr':'121.232.147.242:9000'},
+          {'ipaddr':'117.90.252.217:9000'},
+          {'ipaddr':'121.232.147.193:9000'}]
 
 #用户代理池
 UAPOOL=[
@@ -65,13 +67,13 @@ COOKIES_ENABLED = False
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-   #'Crawler.middlewares.MyCustomDownloaderMiddleware': 543,
-   # 'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':123,
-   #  'Crawler.middlewares.IPPOOLS':125
-    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware':2,
-    'Crawler.middlewares.Uamid':1
-}
+# DOWNLOADER_MIDDLEWARES = {
+#    #'Crawler.middlewares.MyCustomDownloaderMiddleware': 543,
+#    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware':123,
+#    'Crawler.middlewares.IPPOOLS':125
+#    #  'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware':2,
+#    #  'Crawler.middlewares.Uamid':1
+# }
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -81,9 +83,10 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'Crawler.pipelines.CrawlerPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    #300为优先级，取值为0-1000,从低到高执行
+   'Crawler.pipelines.CrawlerPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
