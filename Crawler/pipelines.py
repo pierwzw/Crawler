@@ -22,7 +22,7 @@ class CrawlerPipeline(object):
         ID = str(item['ID'][0])
         link = str(item['link'][0])
         shop_name = str(item['shop_name'])
-        commentVersion = str(item['commentVersion'])
+        commentVersion = str(item['commentVersion'][0])
         comment_count = str(item['comment_count'])
         good_comment_count = str(item['good_comment_count'])
         general_comment_count = str(item['general_comment_count'])
@@ -30,11 +30,15 @@ class CrawlerPipeline(object):
         average_score = str(item['average_score'])
         price = str(item['price'])
 
-        data = name + '\t' + ID + '\t' + link + '\t' + shop_name + '\t' + commentVersion + '\t' + comment_count + \
-               '\t' + good_comment_count + '\t' + general_comment_count + '\t' + poor_comment_count + '\t' \
-               + average_score + '\t' + average_score + '\n'
-        # print(data)
-        self.file.write(data)
+        data = shop_name + '\t' + commentVersion + '\t' + comment_count + \
+               '\t' + good_comment_count + '\t' + general_comment_count + '\t' + poor_comment_count + '\t' + \
+               average_score + '\t' + average_score + '\t' + price + '\t' + name + '\n'
+        mat = "{:<12}\t{:<32}\t"
+        # dataformatted = link + '\t' + shop_name + '\t' + commentVersion + '\t' + comment_count + \
+        #        '\t' + good_comment_count + '\t' + general_comment_count + '\t' + poor_comment_count + '\t' + \
+        #        average_score + '\t' + average_score + '\t' + price + '\n'
+        #print(mat.format(name)+'\t'+dataformatted)
+        self.file.write(mat.format(ID, link)+data)
         return item
 
     def close_spider(self, spider):
