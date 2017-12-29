@@ -70,7 +70,7 @@ class commentItem(Item):
     status = Field()
     title = Field()
     userLevelId = Field()
-    userRegisterTime = Field()  # 用户注册时间
+    creationTime = Field()  # 用户注册时间
     productColor = Field()  # 商品颜色
     productSize = Field()  # 商品大小
     userLevelName = Field()  # 银牌会员，钻石会员等

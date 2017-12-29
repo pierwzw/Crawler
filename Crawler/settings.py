@@ -85,7 +85,8 @@ COOKIES_ENABLED = False
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     #300为优先级，取值为0-1000,从低到高执行
-   'Crawler.pipelines.CrawlerPipeline': 300,
+   #'Crawler.pipelines.CrawlerPipeline': 300,
+   'Crawler.pipelines.CommentPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
