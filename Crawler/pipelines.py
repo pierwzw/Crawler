@@ -8,6 +8,8 @@
 # 导入codecs模块直接进行解码
 import codecs
 import json
+import pymysql
+from urllib.request import urlretrieve
 
 
 class CrawlerPipeline(object):
@@ -30,10 +32,8 @@ class CrawlerPipeline(object):
         average_score = str(item['average_score'])
         price = str(item['price'])
 
-        data = name + '\t' + ID + '\t' + link + '\t' + shop_name + '\t' + commentVersion + '\t' + comment_count + \
-               '\t' + good_comment_count + '\t' + general_comment_count + '\t' + poor_comment_count + '\t' + \
-               average_score + '\t' + average_score + '\t' + price
-        #mat = "{:<12}\t{:<32}\t"
+        data = name + '\t' + ID + '\t' + link + '\t' + shop_name + '\t' + commentVersion + '\t' + comment_count + '\t' + good_comment_count + '\t' + general_comment_count + '\t' + poor_comment_count + '\t' + average_score + '\t' + average_score + '\t' + price
+        # mat = "{:<12}\t{:<32}\t"
         self.file.write(data + '\n')
         return item
 
@@ -52,25 +52,84 @@ class CommentPipeline(object):
         content = item['content']
         good_ID = item['good_ID']
         good_name = item['good_name']
-        #date = item['date']
+        # date = item['date']
         replyCount = item['replyCount']
         score = item['score']
         status = item['status']
         title = item['title']
         creationTime = item['creationTime']
         productColor = item['productColor']
-        #productSize = item['productSize']
+        # productSize = item['productSize']
         userLevelName = item['userLevelName']
         isMobile = item['isMobile']
         days = item['days']
         tags = item['commentTags']
-        data = '%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s' \
-               % (user_name, user_ID, userProvince, good_ID, replyCount,
-                  score, status, title, creationTime, productColor, userLevelName, isMobile, days, tags, good_name, content)
+        data = '%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s' % (
+        user_name, user_ID, userProvince, good_ID, replyCount, score, status, title, creationTime, productColor,
+        userLevelName, isMobile, days, tags, good_name, content)
         self.file.write(data + '\n')
         return item
 
     def close_spider(self, spider):
         self.file.close()
+
+
+class CsPipeline(object):
+    t = 0
+
+    def process_item(self, item, spider):
+        CsPipeline.t += 1
+        print(str(CsPipeline.t) + ' ' + item['name'][0])
+        print(item['link'][0])
+        print('---------------------------')
+        return item
+
+
+class SqlPipeline(object):
+    def __init__(self):
+        #一定要加charset='utf8'，也不能为'utf-8'
+        self.conn = pymysql.connect(host='127.0.0.1', user='root', passwd='root', db='mypydb', charset='utf8')
+
+    def process_item(self, item, spider):
+        name = item['name'][0]
+        keywd = item['keywd'][0]
+        sql = "insert into mytb(title, keywd) values('" + name + "','" + keywd + "')"
+        self.conn.query(sql)
+        return item
+
+    def close_spider(self, spider):
+        self.conn.close()
+
+
+class HexunPipeline(object):
+
+    def __init__(self):
+        self.conn = pymysql.connect(host='127.0.0.1', user='root', passwd='root', db='hexun', charset='utf8')
+
+    def process_item(self):
+        for j in range(len(item['name'])):
+            name = item['name'][j]
+            url = item['url'][j]
+            hits = item['hits'][j]
+            comment = item['comment'][j]
+
+            sql = "insert into myhexun(name, url, hits, comment) values('"+name+\
+                  "','"+url+"','"+hits+"','"+comment+"')"
+            self.conn.query(sql)
+        return item
+
+    def close_spider(self, spider):
+        self.conn.close()
+
+
+class QiantuPipeline(object):
+    def process_item(self, item, spider):
+        for i in range(len(item['picurl'])):
+            thispic = item['picurl'][i]
+            trueurl = thispic + '_1024.jpg'
+            localpath = 'c:\\qiantu\\' + item['picid'][i] + '.jpg'
+            urlretrieve(trueurl, filename=localpath)
+        return item
+
 
 

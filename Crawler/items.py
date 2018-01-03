@@ -79,3 +79,25 @@ class commentItem(Item):
     days = Field()  # 天数
     commentTags = Field()  # 标签
 
+
+class csItem(Item):
+    name = Field()
+    link = Field()
+
+
+class sqlItem(Item):
+    name = Field()
+    keywd = Field()
+
+
+class HexumItem(Item):
+    name = Field()
+    url = Field()
+    hits = Field()
+    comment = Field()
+
+
+class QiantuItem(Item):
+    picurl = Field()
+    picid = Field()
+
